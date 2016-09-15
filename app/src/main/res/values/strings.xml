@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NetflixFilms</string>
+    <string name="saved_movies">Saved Movies</string>
+    <string name="search_with_director">Search with director</string>
+    <string name="search_with_title">Search with title</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
