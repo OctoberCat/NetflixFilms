@@ -1,7 +1,7 @@
 package com.netflixfilms.restClient;
 
-import com.netflixfilms.model.Error;
-import com.netflixfilms.model.Film;
+
+import com.netflixfilms.model.ApiError;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -9,6 +9,7 @@ import java.lang.annotation.Annotation;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -17,8 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by valentyn on 12.09.16.
  */
 public class RESTClient {
-    private static ApiRequests apiRequests;
     public static final String API_ENDPOINT = "http://netflixroulette.net/";
+    private static ApiRequests apiRequests;
     private static OkHttpClient okHttpClient = new OkHttpClient();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
@@ -35,18 +36,18 @@ public class RESTClient {
         }
     }
 
-    public static Error parseError(retrofit2.Response<Film> response) {
-        Converter<ResponseBody, Error> converter =
-                retrofit.responseBodyConverter(Error.class, new Annotation[0]);
+    public static ApiError parseError(Response<?> response) {
+        Converter<ResponseBody, ApiError> converter =
+                retrofit.responseBodyConverter(ApiError.class, new Annotation[0]);
 
-        Error error;
+        ApiError apiError;
 
         try {
-            error = converter.convert(response.errorBody());
+            apiError = converter.convert(response.errorBody());
         } catch (IOException e) {
-            return new Error();
+            return new ApiError();
         }
 
-        return error;
+        return apiError;
     }
 }

@@ -4,7 +4,7 @@ package com.netflixfilms.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Error {
+public class ApiError {
 
     @SerializedName("errorcode")
     @Expose

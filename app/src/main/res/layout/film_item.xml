@@ -1,5 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    card:cardCornerRadius="5dp">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/production_year"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/poster_sample" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@id/poster"
+            android:layout_toEndOf="@id/poster"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                tools:text="Comedy" />
+
+            <TextView
+                android:id="@+id/director"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                tools:text="director" />
+
+            <TextView
+                android:id="@+id/show_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textStyle="italic"
+                tools:text="The Boondocks" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/production_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/linear_layout"
+            android:background="@color/colorTextBackground"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:text="2012" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/linear_layout"
+            android:layout_below="@+id/linear_layout"
+            android:background="@color/colorTextBackground"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:text="4.0" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
