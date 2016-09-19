@@ -14,6 +14,7 @@ import com.netflixfilms.restClient.ApiRequests;
 import com.netflixfilms.restClient.RESTClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,8 +32,6 @@ public class NetflixService extends Service {
     private ExecutorService executor;
     private String title;
     private String director;
-    private Film film;
-    private List<Film> filmList;
 
     public NetflixService() {
     }
@@ -65,11 +64,9 @@ public class NetflixService extends Service {
 
         switch (action) {
             case ACTION_DIRECTOR:
-                Log.i(TAG, "onStartCommand: searching with director");
                 handleDirectorSearch(intent);
                 break;
             case ACTION_TITLE:
-                Log.i(TAG, "onStartCommand: searching with title");
                 handleTitleSearch(intent);
                 break;
 
@@ -79,7 +76,6 @@ public class NetflixService extends Service {
     }
 
     private void handleTitleSearch(Intent intent) {
-        Log.i(TAG, "handleTitleSearch: start");
         title = intent.getStringExtra(EXTRA_TITLE);
         executor.submit(new Runnable() {
             @Override
@@ -88,19 +84,16 @@ public class NetflixService extends Service {
                 ApiRequests apiRequest = RESTClient.createRetrofitClient(ApiRequests.class);
                 Call<Film> call = apiRequest.searchByTitle(title);
                 try {
-                    Log.i(TAG, "run: Hmmmm " );
                     Response<Film> response = call.execute();
                     if (response.isSuccessful()) {
-                        film = response.body();
+                        Film film = response.body();
                         Log.i(TAG, "run: film: " + film.getSummary());
-                        OttoBus.postOnMain(new SearchResultEvent(film));
+                        List<Film> filmList = new ArrayList<Film>();
+                        filmList.add(film);
+                        OttoBus.postOnMain(new SearchResultEvent(filmList));
                     } else {
-                        Log.i(TAG, "run: Something wrong");
-                       // RESTClient.parseError(response);
-                        //For getting error message
-                        Log.i("ApiError message", response.message());
-                        //For getting error code. Code is integer value like 200,404 etc
-                        Log.i("ApiError code", String.valueOf(response.code()));
+                        ApiError apiError = RESTClient.parseError(response);
+                        Log.i(TAG, "Error code: " + apiError.getErrorcode());
                     }
                 } catch (IOException e) {
                     Log.i(TAG, " IOException during title search!");
@@ -122,14 +115,14 @@ public class NetflixService extends Service {
                 try {
                     Response<List<Film>> response = call.execute();
                     if (response.isSuccessful()) {
-                        filmList = response.body();
-                        for(Film film: filmList){
+                        List<Film> filmList = response.body();
+                        for (Film film : filmList) {
                             Log.i(TAG, "run: film " + film.getShowTitle());
                         }
                         OttoBus.postOnMain(new SearchResultEvent(filmList));
                     } else {
                         ApiError apiError = RESTClient.parseError(response);
-                        Log.i(TAG, "Error code: "+ apiError.getErrorcode());
+                        Log.i(TAG, "Error code: " + apiError.getErrorcode());
                     }
                 } catch (IOException e) {
                     Log.i(TAG, " IOException during director search!");

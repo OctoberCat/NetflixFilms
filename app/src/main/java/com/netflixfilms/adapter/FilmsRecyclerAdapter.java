@@ -1,5 +1,8 @@
 package com.netflixfilms.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +13,10 @@ import android.widget.TextView;
 
 import com.netflixfilms.R;
 import com.netflixfilms.model.Film;
+import com.netflixfilms.ui.activity.DetailsActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -42,13 +47,19 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
         holder.director.setText(film.getDirector());
         holder.releaseYear.setText(film.getReleaseYear());
         holder.film = film;
-        Picasso.with(holder.poster.getContext()).load(film.getPoster());
+        Picasso.with(holder.poster.getContext()).load(Uri.parse(film.getPoster())).into(holder.poster);
 
     }
 
     @Override
     public int getItemCount() {
         return films.size();
+    }
+
+    public void updateData(ArrayList<Film> filmList) {
+        films.clear();
+        films.addAll(filmList);
+        notifyDataSetChanged();
     }
 
     public class FilmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -76,8 +87,10 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
 
         @Override
         public void onClick(View view) {
-            Log.i(TAG, "onClick: film title: ");
-
+            Log.i(TAG, "onClick: film title: " + film.getShowTitle());
+            Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+            intent.putParcelableArrayListExtra(DetailsActivity.DETAILS_KEY, (ArrayList<? extends Parcelable>) films);
+            view.getContext().startActivity(intent);
         }
     }
 }

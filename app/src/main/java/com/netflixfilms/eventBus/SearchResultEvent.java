@@ -16,9 +16,6 @@ public class SearchResultEvent {
         this.filmList = (ArrayList<Film>) films;
     }
 
-    public SearchResultEvent(Film film) {
-        this.film = film;
-    }
 
     public Film getFilm() {
         return film;
