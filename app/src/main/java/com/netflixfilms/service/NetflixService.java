@@ -37,7 +37,6 @@ public class NetflixService extends Service {
     }
 
     public static void searchByTitle(Context context, String title) {
-        Log.i(TAG, "searchByTitle: searching");
         Intent intent = new Intent(context, NetflixService.class);
         intent.setAction(ACTION_TITLE);
         intent.putExtra(EXTRA_TITLE, title);
@@ -45,7 +44,6 @@ public class NetflixService extends Service {
     }
 
     public static void searchByDirector(Context context, String director) {
-        Log.i(TAG, "searchByDirector: searching");
         Intent intent = new Intent(context, NetflixService.class);
         intent.setAction(ACTION_DIRECTOR);
         intent.putExtra(EXTRA_DIRECTOR, director);
@@ -80,7 +78,6 @@ public class NetflixService extends Service {
         executor.submit(new Runnable() {
             @Override
             public void run() {
-
                 ApiRequests apiRequest = RESTClient.createRetrofitClient(ApiRequests.class);
                 Call<Film> call = apiRequest.searchByTitle(title);
                 try {
@@ -88,12 +85,13 @@ public class NetflixService extends Service {
                     if (response.isSuccessful()) {
                         Film film = response.body();
                         Log.i(TAG, "run: film: " + film.getSummary());
-                        List<Film> filmList = new ArrayList<Film>();
+                        List<Film> filmList = new ArrayList<>();
                         filmList.add(film);
                         OttoBus.postOnMain(new SearchResultEvent(filmList));
                     } else {
                         ApiError apiError = RESTClient.parseError(response);
                         Log.i(TAG, "Error code: " + apiError.getErrorcode());
+                        OttoBus.postOnMain(new SearchResultEvent(apiError));
                     }
                 } catch (IOException e) {
                     Log.i(TAG, " IOException during title search!");
@@ -105,7 +103,6 @@ public class NetflixService extends Service {
     }
 
     private void handleDirectorSearch(Intent intent) {
-        Log.i(TAG, "handleDirectorSearch: start");
         director = intent.getStringExtra(EXTRA_DIRECTOR);
         executor.submit(new Runnable() {
             @Override
@@ -123,6 +120,7 @@ public class NetflixService extends Service {
                     } else {
                         ApiError apiError = RESTClient.parseError(response);
                         Log.i(TAG, "Error code: " + apiError.getErrorcode());
+                        OttoBus.postOnMain(new SearchResultEvent(apiError));
                     }
                 } catch (IOException e) {
                     Log.i(TAG, " IOException during director search!");

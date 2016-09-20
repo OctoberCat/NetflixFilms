@@ -3,31 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.netflixfilms.ui.fragment.SearchFragment">
-    <EditText
-        android:id="@+id/search"
-        android:layout_width="250dp"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_toStartOf="@+id/search_btn"
-        android:hint="Search" />
+        android:layout_toStartOf="@+id/search_btn">
 
-    <Button
-        android:id="@id/search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/search"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:text="@string/search" />
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_input"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:visibility="gone"
+        tools:text="Sorry, we didn't find anything" />
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/search_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/search"
+        android:layout_below="@+id/search_input"
         tools:listitem="@layout/film_item" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@id/search_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="19dp"
+        android:padding="8dp"
+        android:text="@string/search"
+        android:layout_above="@+id/search_recycler"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

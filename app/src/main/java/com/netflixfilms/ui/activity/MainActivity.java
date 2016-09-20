@@ -31,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
         if (savedInstanceState == null) {
@@ -55,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Bundle bundle = new Bundle();
-        String title = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_saved_movies:
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
     }

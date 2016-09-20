@@ -51,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="italic"
                 tools:text="The Boondocks" />
         </LinearLayout>
@@ -61,10 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/linear_layout"
-            android:background="@color/colorTextBackground"
             android:gravity="end"
-            android:textColor="@color/colorPrimary"
             android:textSize="35sp"
+            android:layout_marginRight="10dp"
             android:textStyle="bold"
             tools:text="2012" />
 
@@ -74,8 +74,9 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/linear_layout"
             android:layout_below="@+id/linear_layout"
-            android:background="@color/colorTextBackground"
             android:textSize="35sp"
+            android:layout_alignBottom="@id/poster"
+            android:layout_marginLeft="10dp"
             android:textStyle="bold"
             tools:text="4.0" />
     </RelativeLayout>

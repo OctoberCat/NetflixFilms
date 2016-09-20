@@ -57,7 +57,7 @@ public class DetailsFragment extends Fragment {
         director.setText(film.getDirector());
         year.setText(film.getReleaseYear());
         summary.setText(film.getSummary());
-        Picasso.with(getActivity()).load(film.getPoster()).into(poster);
+        Picasso.with(getActivity()).load(film.getPoster()).placeholder(R.drawable.placeholder).into(poster);
         return rootView;
 
     }

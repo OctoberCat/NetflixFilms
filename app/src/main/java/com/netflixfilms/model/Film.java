@@ -18,7 +18,7 @@ public class Film extends Model implements Parcelable {
     private long unit;
     @SerializedName("show_id")
     @Expose
-    @Column
+    @Column(unique = true, onUniqueConflict = Column.ConflictAction.IGNORE)
     private long showId;
     @SerializedName("show_title")
     @Expose
@@ -26,6 +26,7 @@ public class Film extends Model implements Parcelable {
     private String showTitle;
     @SerializedName("release_year")
     @Expose
+    @Column
     private String releaseYear;
     @SerializedName("rating")
     @Expose

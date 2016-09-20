@@ -4,8 +4,13 @@
     <string name="search_with_director">Search with director</string>
     <string name="search_with_title">Search with title</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save">SAVE</string>
     <string name="search">SEARCH</string>
+    <string name="error_empty">Search input is empty</string>
+    <string name="hint_by_title">Search by title</string>
+    <string name="hint_by_director">Search by director</string>
+    <string name="search_director">Search with director</string>
+    <string name="search_title">Search with title</string>
+    <string name="release_year">Release Year:</string>
+    <string name="rating">Rating:</string>
 </resources>

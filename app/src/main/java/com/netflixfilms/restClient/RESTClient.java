@@ -29,7 +29,6 @@ public class RESTClient {
 
     public static ApiRequests createRetrofitClient(Class<ApiRequests> requestsClass) {
         if (apiRequests == null) {
-
             return apiRequests = retrofit.create(requestsClass);
         } else {
             return apiRequests;
@@ -39,15 +38,12 @@ public class RESTClient {
     public static ApiError parseError(Response<?> response) {
         Converter<ResponseBody, ApiError> converter =
                 retrofit.responseBodyConverter(ApiError.class, new Annotation[0]);
-
         ApiError apiError;
-
         try {
             apiError = converter.convert(response.errorBody());
         } catch (IOException e) {
             return new ApiError();
         }
-
         return apiError;
     }
 }

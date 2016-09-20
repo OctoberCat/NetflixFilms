@@ -22,11 +22,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by valentyn on 15.09.16.
- */
 public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdapter.FilmViewHolder> {
-    List<Film> films;
+    private List<Film> films;
 
     public FilmsRecyclerAdapter(List<Film> films) {
         this.films = films;
@@ -47,8 +44,7 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
         holder.director.setText(film.getDirector());
         holder.releaseYear.setText(film.getReleaseYear());
         holder.film = film;
-        Picasso.with(holder.poster.getContext()).load(Uri.parse(film.getPoster())).into(holder.poster);
-
+        Picasso.with(holder.poster.getContext()).load(Uri.parse(film.getPoster())).placeholder(R.drawable.placeholder).into(holder.poster);
     }
 
     @Override
@@ -62,7 +58,7 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
         notifyDataSetChanged();
     }
 
-    public class FilmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class FilmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final String TAG = FilmViewHolder.class.getSimpleName();
 
         @Bind(R.id.poster)
@@ -79,7 +75,7 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
         TextView category;
         Film film;
 
-        public FilmViewHolder(View itemView) {
+        FilmViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -89,6 +85,7 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
         public void onClick(View view) {
             Log.i(TAG, "onClick: film title: " + film.getShowTitle());
             Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+            intent.putExtra(DetailsActivity.DETAILS_KEY_POSITION, this.getLayoutPosition());
             intent.putParcelableArrayListExtra(DetailsActivity.DETAILS_KEY, (ArrayList<? extends Parcelable>) films);
             view.getContext().startActivity(intent);
         }

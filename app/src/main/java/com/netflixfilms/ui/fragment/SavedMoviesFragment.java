@@ -2,6 +2,7 @@ package com.netflixfilms.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import com.activeandroid.query.Select;
 import com.netflixfilms.R;
 import com.netflixfilms.adapter.FilmsRecyclerAdapter;
-import com.netflixfilms.eventBus.OttoBus;
 import com.netflixfilms.model.Film;
 
 import java.util.List;
@@ -22,13 +22,46 @@ import butterknife.ButterKnife;
 
 public class SavedMoviesFragment extends Fragment {
 
-    //  private OnFragmentInteractionListener mListener;
     @Bind(R.id.saved_movies_recycler)
     RecyclerView recyclerView;
-    List<Film> savedFilms;
+
+    private static final String RECYCLERVIEW_STATE = "recyclerview";
+
+    private List<Film> savedFilms;
+    private GridLayoutManager layoutManager;
 
     public SavedMoviesFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_saved_movies, container, false);
+        ButterKnife.bind(this, rootView);
+
+        savedFilms = getAllFilms();
+
+        layoutManager = new GridLayoutManager(getActivity(), getResources().getConfiguration().orientation);
+        recyclerView.setLayoutManager(layoutManager);
+        FilmsRecyclerAdapter filmsRecyclerAdapter = new FilmsRecyclerAdapter(savedFilms);
+        recyclerView.setAdapter(filmsRecyclerAdapter);
+
+        return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(RECYCLERVIEW_STATE, layoutManager.onSaveInstanceState());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            layoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(RECYCLERVIEW_STATE));
+        }
     }
 
     public List<Film> getAllFilms() {
@@ -37,37 +70,5 @@ public class SavedMoviesFragment extends Fragment {
                 .from(Film.class)
                 .execute();
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_saved_movies, container, false);
-        ButterKnife.bind(this, rootView);
-        savedFilms = getAllFilms();
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), getResources().getConfiguration().orientation);
-        recyclerView.setLayoutManager(layoutManager);
-        FilmsRecyclerAdapter filmsRecyclerAdapter = new FilmsRecyclerAdapter(savedFilms);
-        recyclerView.setAdapter(filmsRecyclerAdapter);
-        return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        OttoBus.getInstance().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        OttoBus.getInstance().unregister(this);
-    }
-
 
 }

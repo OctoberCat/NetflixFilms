@@ -10,11 +10,8 @@ import com.netflixfilms.ui.fragment.DetailsFragment;
 
 import java.util.List;
 
-/**
- * Created by valentyn on 18.09.16.
- */
 public class FilmPagerAdapter extends FragmentStatePagerAdapter {
-    List<Film> films;
+    private List<Film> films;
 
     public FilmPagerAdapter(FragmentManager fm, List<Film> films) {
         super(fm);
